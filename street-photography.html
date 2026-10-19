@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Street Photography — Çağan Sardoğan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .font-times {
+      font-family: 'Times New Roman', Times, serif;
+    }
+    /* 3D sahne derinliği */
+    .slider-stage {
+      perspective: 1200px;
+      overflow: hidden;
+    }
+    .slide-item {
+      transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      position: absolute;
+      transform-origin: center center;
+    }
+  </style>
+</head>
+<body class="bg-[#fafafa] text-neutral-900 min-h-screen flex flex-col justify-between overflow-hidden font-times select-none">
+
+  <!-- Üst Bar: Geri Dönüş ve Başlık -->
+  <header class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-baseline z-30">
+    <a href="index.html" class="text-sm tracking-widest lowercase hover:text-red-600 transition-colors">
+      ← back
+    </a>
+    <h1 class="text-lg md:text-xl italic text-neutral-900 tracking-tight">
+      street photography
+    </h1>
+    <div id="counter" class="text-xs text-neutral-400 tracking-widest font-sans">
+      01 / 10
+    </div>
+  </header>
+
+  <!-- Slider Alanı (Bureau Nine Tarzı İç İçe Çift Katman) -->
+  <main class="relative w-full flex-1 flex items-center justify-center slider-stage">
+    
+    <!-- Sol ve Sağ Tıklama Alanları / Butonlar -->
+    <button id="prevBtn" class="absolute left-4 md:left-12 z-40 p-4 text-2xl text-neutral-400 hover:text-neutral-900 transition-colors cursor-pointer focus:outline-none">
+      ‹
+    </button>
+    <button id="nextBtn" class="absolute right-4 md:right-12 z-40 p-4 text-2xl text-neutral-400 hover:text-neutral-900 transition-colors cursor-pointer focus:outline-none">
+      ›
+    </button>
+
+    <!-- Kartların Gezeceği Kapsayıcı -->
+    <div id="sliderTrack" class="relative w-[300px] h-[400px] sm:w-[380px] sm:h-[500px] md:w-[440px] md:h-[580px] flex items-center justify-center">
+      <!-- JavaScript burayı dinamik olarak dolduracak -->
+    </div>
+  </main>
+
+  <!-- Alt Bilgi -->
+  <footer class="w-full max-w-6xl mx-auto px-6 py-6 flex justify-between items-center text-xs text-neutral-400 font-sans z-30">
+    <span>Drag, swipe or use arrows (← / →)</span>
+    <span>© 2026 Çağan Sardoğan</span>
+  </footer>
+
+  <!-- SLIDER LOGIC -->
+  <script>
+    // 10 Fotoğraf Listesi (foto1.jpg ... foto10.jpg)
+    // Henüz yüklemediysen otomatik geçici placeholder gösterir
+    const slides = Array.from({ length: 10 }, (_, i) => ({
+      id: i + 1,
+      title: `Archive 0${i + 1}`,
+      img: `foto${i + 1}.jpg`,
+      fallback: `https://picsum.photos/800/1000?random=${i + 1}`
+    }));
+
+    let currentIndex = 0;
+    const track = document.getElementById('sliderTrack');
+    const counter = document.getElementById('counter');
+
+    // DOM Elemanlarını Oluştur
+    slides.forEach((slide, index) => {
+      const card = document.createElement('div');
+      card.className = 'slide-item w-full h-full cursor-pointer';
+      card.id = `slide-${index}`;
+      
+      card.innerHTML = `
+        <div class="relative w-full h-full bg-neutral-100 shadow-xl overflow-hidden rounded-xs border border-neutral-200/50">
+          <!-- Arkadaki Büyük Resim -->
+          <img 
+            src="${slide.img}" 
+            onerror="this.src='${slide.fallback}'" 
+            alt="${slide.title}" 
+            class="w-full h-full object-cover filter contrast-105"
+          />
+          <!-- Öndeki Küçük Odak Resmi (Doku/Derinlik Hissi) -->
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none p-8 sm:p-12">
+            <div class="w-1/2 h-1/2 shadow-2xl border-2 border-white/90 overflow-hidden transform hover:scale-105 transition-transform duration-500">
+              <img 
+                src="${slide.img}" 
+                onerror="this.src='${slide.fallback}'" 
+                alt="${slide.title} focus" 
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          <!-- Üst Başlık Etiketi -->
+          <div class="absolute top-0 left-0 right-0 p-3 bg-white/90 backdrop-blur-xs flex justify-between items-center text-[11px] font-sans text-neutral-800 border-b border-neutral-100">
+            <span class="tracking-widest uppercase">${slide.title}</span>
+            <span class="text-neutral-400">35mm</span>
+          </div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        if (index !== currentIndex) {
+          currentIndex = index;
+          updateSlider();
+        }
+      });
+
+      track.appendChild(card);
+    });
+
+    function updateSlider() {
+      slides.forEach((_, i) => {
+        const el = document.getElementById(`slide-${i}`);
+        let diff = i - currentIndex;
+
+        // Sonsuz döngü hissi (dairesel liste)
+        if (diff > slides.length / 2) diff -= slides.length;
+        if (diff < -slides.length / 2) diff += slides.length;
+
+        if (diff === 0) {
+          // Aktif Kart (Ortada, Tam Boyut)
+          el.style.transform = `translateX(0px) translateZ(0px) scale(1) rotateY(0deg)`;
+          el.style.opacity = '1';
+          el.style.zIndex = '20';
+          el.style.pointerEvents = 'auto';
+        } else if (Math.abs(diff) === 1) {
+          // Bir sağdaki veya soldaki kart
+          const x = diff * 280; // aralık
+          const rot = diff * -12;
+          el.style.transform = `translateX(${x}px) translateZ(-140px) scale(0.85) rotateY(${rot}deg)`;
+          el.style.opacity = '0.75';
+          el.style.zIndex = '10';
+          el.style.pointerEvents = 'auto';
+        } else if (Math.abs(diff) === 2) {
+          // İki sıra uzaktaki kartlar
+          const x = diff * 220;
+          const rot = diff * -18;
+          el.style.transform = `translateX(${x}px) translateZ(-260px) scale(0.68) rotateY(${rot}deg)`;
+          el.style.opacity = '0.4';
+          el.style.zIndex = '5';
+          el.style.pointerEvents = 'auto';
+        } else {
+          // Diğer uzaktakiler
+          const x = Math.sign(diff) * 450;
+          el.style.transform = `translateX(${x}px) translateZ(-400px) scale(0.5)`;
+          el.style.opacity = '0';
+          el.style.zIndex = '1';
+          el.style.pointerEvents = 'none';
+        }
+      });
+
+      counter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+    }
+
+    // Buton Kontrolleri
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      updateSlider();
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateSlider();
+    });
+
+    // Klavye Yön Tuşları
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') document.getElementById('nextBtn').click();
+      if (e.key === 'ArrowLeft') document.getElementById('prevBtn').click();
+    });
+
+    // Dokunmatik / Mouse Sürükleme (Swipe)
+    let startX = 0;
+    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+    track.addEventListener('touchend', (e) => {
+      let diffX = e.changedTouches[0].clientX - startX;
+      if (diffX > 40) document.getElementById('prevBtn').click();
+      if (diffX < -40) document.getElementById('nextBtn').click();
+    });
+
+    // İlk yükleme
+    updateSlider();
+  </script>
+</body>
+</html>
