@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Çağan Sardoğan — Portfolyo</title>
+  <title>Çağan Sardoğan</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Inter Font -->
@@ -16,94 +16,138 @@
     }
   </style>
 </head>
-<body class="bg-[#fafafa] text-neutral-800 antialiased selection:bg-neutral-200">
-  <div class="max-w-xl mx-auto px-6 py-20 md:py-28">
+<body class="bg-[#fafafa] text-neutral-800 antialiased selection:bg-red-100 selection:text-red-600 min-h-screen flex items-center justify-center p-6 overflow-hidden">
 
-    <!-- Header / Bio -->
-    <header class="mb-14">
-      <h1 class="text-xl font-medium tracking-tight text-neutral-900 mb-2">Çağan Sardoğan</h1>
-      <p class="text-neutral-500 text-sm leading-relaxed mb-4">
-        Lojistik yönetimi ve endüstri mühendisliği öğrencisi. Tedarik zinciri modelleme, optimizasyon ve süreç simülasyonları üzerine odaklanıyor.
-      </p>
-      <div class="flex gap-4 text-xs font-medium text-neutral-400">
-        <a href="https://linkedin.com" target="_blank" class="hover:text-neutral-900 transition-colors">LinkedIn ↗</a>
-        <a href="https://github.com" target="_blank" class="hover:text-neutral-900 transition-colors">GitHub ↗</a>
-        <a href="mailto:cagan@example.com" class="hover:text-neutral-900 transition-colors">E-posta ↗</a>
+  <!-- ORTADA DURAN KIRMIZI İSİM -->
+  <main class="text-center select-none">
+    <button 
+      id="open-btn" 
+      class="group text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-red-600 hover:text-red-700 transition-all duration-300 focus:outline-none flex items-center justify-center gap-3 cursor-pointer"
+      aria-label="Menüyü ve bilgileri aç"
+    >
+      <span>Çağan Sardoğan</span>
+      <span class="text-xs sm:text-sm font-normal text-red-400 group-hover:translate-x-1 transition-transform tracking-normal">
+        [bilgi ↗]
+      </span>
+    </button>
+    <p class="text-xs text-neutral-400 mt-4 tracking-wider uppercase font-medium">
+      Detaylar için tıklayın
+    </p>
+  </main>
+
+  <!-- ARKA PLAN KARARTMASI (OVERLAY) -->
+  <div 
+    id="overlay" 
+    class="fixed inset-0 bg-neutral-900/30 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out z-40"
+  ></div>
+
+  <!-- YANDAN AÇILAN PANEL -->
+  <aside 
+    id="side-panel" 
+    class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto border-l border-neutral-100 p-8 sm:p-10 flex flex-col justify-between"
+    role="dialog" 
+    aria-modal="true"
+  >
+    <div>
+      <!-- Kapatma Butonu ve Başlık -->
+      <div class="flex items-center justify-between pb-6 border-b border-neutral-100 mb-8">
+        <span class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Hakkında</span>
+        <button 
+          id="close-btn" 
+          class="text-neutral-400 hover:text-neutral-900 text-sm font-medium transition-colors p-1"
+          aria-label="Kapat"
+        >
+          Kapat ✕
+        </button>
       </div>
-    </header>
 
-    <!-- Şu An / Odak -->
-    <section class="mb-14">
-      <h2 class="text-xs uppercase tracking-wider text-neutral-400 font-medium mb-4">Şu An</h2>
-      <p class="text-sm text-neutral-600 leading-relaxed">
-        GAMS Studio ve Arena simülasyonu kullanarak ağ tasarımı ve tesis yeri seçimi optimizasyonları üzerine çalışıyorum. Boş vakitlerimde analog fotoğrafçılık ve dijital arşiv akışları üretiyorum.
-      </p>
-    </section>
-
-    <!-- Seçilmiş Projeler / Çalışmalar -->
-    <section class="mb-14">
-      <h2 class="text-xs uppercase tracking-wider text-neutral-400 font-medium mb-4">Projeler & Çalışmalar</h2>
-      <div class="space-y-6">
-        
-        <div class="group">
-          <div class="flex justify-between items-baseline">
-            <h3 class="text-sm font-medium text-neutral-900 group-hover:underline">
-              <a href="#">Şebeke Kapsama & Tesis Yeri Optimizasyonu</a>
-            </h3>
-            <span class="text-xs text-neutral-400">2026</span>
-          </div>
-          <p class="text-xs text-neutral-500 mt-1 leading-relaxed">
-            Acil müdahale ağları için kapsama algoritması modellemesi ve GAMS ile çözüm süreci analizi.
-          </p>
+      <!-- Profil & Bio -->
+      <div class="mb-10">
+        <h2 class="text-xl font-medium text-neutral-900 mb-2">Çağan Sardoğan</h2>
+        <p class="text-sm text-neutral-500 leading-relaxed mb-4">
+          Lojistik yönetimi ve endüstri mühendisliği öğrencisi. Tedarik zinciri modelleme, optimizasyon ve süreç simülasyonları üzerine odaklanıyor.
+        </p>
+        <div class="flex gap-4 text-xs font-medium text-neutral-400">
+          <a href="https://linkedin.com" target="_blank" class="hover:text-red-600 transition-colors">LinkedIn ↗</a>
+          <a href="https://github.com" target="_blank" class="hover:text-red-600 transition-colors">GitHub ↗</a>
+          <a href="mailto:ornek@mail.com" class="hover:text-red-600 transition-colors">E-posta ↗</a>
         </div>
-
-        <div class="group">
-          <div class="flex justify-between items-baseline">
-            <h3 class="text-sm font-medium text-neutral-900 group-hover:underline">
-              <a href="#">Süreç Simülasyonu & Kaynak Yönetimi</a>
-            </h3>
-            <span class="text-xs text-neutral-400">2026</span>
-          </div>
-          <p class="text-xs text-neutral-500 mt-1 leading-relaxed">
-            Arena üzerinde darboğaz tespiti, kuyruk yönetimi ve operasyonel verimlilik modellemesi.
-          </p>
-        </div>
-
-        <div class="group">
-          <div class="flex justify-between items-baseline">
-            <h3 class="text-sm font-medium text-neutral-900 group-hover:underline">
-              <a href="#">Tedarik Zinciri MRP Entegrasyonu</a>
-            </h3>
-            <span class="text-xs text-neutral-400">2026</span>
-          </div>
-          <p class="text-xs text-neutral-500 mt-1 leading-relaxed">
-            Talep tahminleme, malzeme ihtiyaç planlaması ve envanter maliyetlerinin optimizasyonu.
-          </p>
-        </div>
-
       </div>
-    </section>
 
-    <!-- Deneyim / Notlar -->
-    <section class="mb-14">
-      <h2 class="text-xs uppercase tracking-wider text-neutral-400 font-medium mb-4">Deneyim</h2>
-      <div class="space-y-4 text-sm">
-        <div class="flex justify-between items-start">
+      <!-- Şu An -->
+      <section class="mb-10">
+        <h3 class="text-xs uppercase tracking-wider text-neutral-400 font-medium mb-3">Şu An</h3>
+        <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+          GAMS Studio ve Arena simülasyonu kullanarak ağ tasarımı ve tesis yeri seçimi optimizasyonları üzerine çalışıyorum. Boş vakitlerimde analog fotoğrafçılık ve dijital arşiv akışları üretiyorum.
+        </p>
+      </section>
+
+      <!-- Projeler -->
+      <section class="mb-10">
+        <h3 class="text-xs uppercase tracking-wider text-neutral-400 font-medium mb-3">Projeler & Çalışmalar</h3>
+        <div class="space-y-4">
+          <div>
+            <h4 class="text-xs sm:text-sm font-medium text-neutral-900">Şebeke Kapsama & Tesis Yeri Optimizasyonu</h4>
+            <p class="text-xs text-neutral-500 mt-0.5 leading-relaxed">
+              Acil müdahale ağları için kapsama algoritması modellemesi ve GAMS ile çözüm süreci analizi.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-xs sm:text-sm font-medium text-neutral-900">Süreç Simülasyonu & Kaynak Yönetimi</h4>
+            <p class="text-xs text-neutral-500 mt-0.5 leading-relaxed">
+              Arena üzerinde darboğaz tespiti, kuyruk yönetimi ve operasyonel verimlilik modellemesi.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deneyim -->
+      <section class="mb-8">
+        <h3 class="text-xs uppercase tracking-wider text-neutral-400 font-medium mb-3">Deneyim</h3>
+        <div class="flex justify-between items-start text-xs sm:text-sm">
           <div>
             <span class="text-neutral-900 font-medium">Operasyon & Lojistik Stajyeri</span>
             <p class="text-xs text-neutral-500">Hapag-Lloyd AG</p>
           </div>
           <span class="text-xs text-neutral-400">2026</span>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- Footer -->
-    <footer class="pt-8 border-t border-neutral-200/60 flex justify-between items-center text-xs text-neutral-400">
+    <!-- Alt Bilgi -->
+    <div class="pt-6 border-t border-neutral-100 flex justify-between items-center text-xs text-neutral-400">
       <span>İzmir, TR</span>
-      <span>Güncelleme: 2026</span>
-    </footer>
+      <span>2026</span>
+    </div>
+  </aside>
 
-  </div>
+  <!-- PANELİ AÇIP KAPATAN JAVASCRIPT -->
+  <script>
+    const openBtn = document.getElementById('open-btn');
+    const closeBtn = document.getElementById('close-btn');
+    const panel = document.getElementById('side-panel');
+    const overlay = document.getElementById('overlay');
+
+    function openPanel() {
+      panel.classList.remove('translate-x-full');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100');
+    }
+
+    function closePanel() {
+      panel.classList.add('translate-x-full');
+      overlay.classList.remove('opacity-100');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    openBtn.addEventListener('click', openPanel);
+    closeBtn.addEventListener('click', closePanel);
+    overlay.addEventListener('click', closePanel);
+
+    // Escape tuşuna basınca paneli kapatma
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePanel();
+    });
+  </script>
 </body>
 </html>
